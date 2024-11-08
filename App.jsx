@@ -4,6 +4,8 @@ import Register from './Screens/Register';
 import Login from './Screens/Login';
 import Welcome from './Screens/Welcome';
 import Home from './Screens/Home';
+import { useState } from 'react';
+
 
 const stack = createNativeStackNavigator();
 

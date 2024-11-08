@@ -9,6 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 const { height, width } = Dimensions.get('window');
 
@@ -16,23 +17,23 @@ const Register = ({ navigation }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userCredentials, setUserCredentials] = useState(null); // State to store user credentials
 
-  // Make handleSignup asynchronous
   const handleSignup = async () => {
     try {
-      // Create a new user with email and password
-      await auth().createUserWithEmailAndPassword(email, password);
+      // Firebase Authentication to create user
+      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user; // Firebase user object
 
       console.log('Signup Info:', { name, email, password });
 
-      // Show success alert
+      // Success message
       Alert.alert('Success', 'Account created successfully!');
 
-      
-      navigation.navigate('Home'); 
+      // Navigate to Home screen, passing user details
+      navigation.navigate('Home', { user: user });
 
     } catch (error) {
-      // Handle any errors from Firebase Auth
       console.error(error);
       Alert.alert('Signup Error', error.message);
     }

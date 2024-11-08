@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import React, { useState } from 'react'
 
-const Home = () => {
+const Home = ({route}) => {
+ 
+  const {user} = route.params;
   return (
     <View>
-      <Text>Home</Text>
+      <Text>Logged in with {user.email}</Text>
     </View>
   )
 }
