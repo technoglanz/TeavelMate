@@ -4,6 +4,7 @@ import Register from './Screens/Register';
 import Login from './Screens/Login';
 import Welcome from './Screens/Welcome';
 import Home from './Screens/Home';
+import Profile from './Screens/Profile';
 import { useState } from 'react';
 
 
@@ -37,6 +38,13 @@ const App = () => {
         <stack.Screen
           name="Login"
           component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <stack.Screen
+          name="Profile"
+          component={Profile}
           options={{
             headerShown: false,
           }}

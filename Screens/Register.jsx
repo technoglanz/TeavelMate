@@ -17,7 +17,6 @@ const Register = ({ navigation }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userCredentials, setUserCredentials] = useState(null); // State to store user credentials
 
   const handleSignup = async () => {
     try {
@@ -25,14 +24,20 @@ const Register = ({ navigation }) => {
       const userCredential = await auth().createUserWithEmailAndPassword(email, password);
       const user = userCredential.user; // Firebase user object
 
-      console.log('Signup Info:', { name, email, password });
+      // Firestore to add user details to the 'users' collection with user.uid as the document ID
+      await firestore().collection('users').doc(user.uid).set({
+        name: name,
+        email: user.email, // Storing email
+        uid: user.uid, // Store user's unique ID
+      });
+
+  
 
       // Success message
       Alert.alert('Success', 'Account created successfully!');
 
       // Navigate to Home screen, passing user details
       navigation.navigate('Home', { user: user });
-
     } catch (error) {
       console.error(error);
       Alert.alert('Signup Error', error.message);
@@ -87,8 +92,8 @@ const styles = StyleSheet.create({
   },
   container2: {
     backgroundColor: '#EBEDEC',
-    height: height * 0.5, // 60% of the screen height
-    width: width * 0.85, // 85% of the screen width
+    height: height * 0.5,
+    width: width * 0.85,
     borderRadius: 5,
     padding: 20,
     alignItems: 'center',
@@ -98,7 +103,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 20, // Space below the heading
+    marginBottom: 20,
   },
   input: {
     height: 50,
